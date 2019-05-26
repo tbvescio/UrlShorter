@@ -1,7 +1,8 @@
 import pymysql
 from flask import Flask, request, render_template, redirect
 
-db = pymysql.connect("arishkage.mysql.pythonanywhere-services.com", "arishkage", "15101989python", "arishkage$url")
+#db = pymysql.connect("arishkage.mysql.pythonanywhere-services.com", "arishkage", "15101989python", "arishkage$url")
+db = pymysql.connect("localhost", "root", "15101989", "url")
 #pone el cursor en la DB
 cursor = db.cursor()
 
@@ -18,8 +19,8 @@ def home():
         db.commit()
 
         short_url = cursor.lastrowid
-        return render_template('index.html', short_url=base_url + str(short_url))
-    return render_template('index.html')
+        return render_template('newindex.html', short_url=base_url + str(short_url))
+    return render_template('newindex.html')
 
 @app.route('/<short_url>')
 def redirect_url(short_url):
