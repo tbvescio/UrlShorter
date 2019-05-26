@@ -1,8 +1,9 @@
 import pymysql
 from flask import Flask, request, render_template, redirect
 
-#db = pymysql.connect("arishkage.mysql.pythonanywhere-services.com", "arishkage", "15101989python", "arishkage$url")
-db = pymysql.connect("localhost", "root", "15101989", "url")
+
+db = pymysql.connect("arishkage.mysql.pythonanywhere-services.com", "arishkage", "15101989python", "arishkage$url")
+
 #pone el cursor en la DB
 cursor = db.cursor()
 
