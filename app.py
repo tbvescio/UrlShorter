@@ -2,24 +2,22 @@ import pymysql
 from flask import Flask, request, render_template, redirect
 import hashlib
 
-db = pymysql.connect("tbvescio.mysql.pythonanywhere-services.com", "tbvescio", "15101989python", "tbvescio$url")
-#db = pymysql.connect("localhost", "root", "15101989", "url")
-cursor = db.cursor() #pone el cursor en la DB
-
+db = pymysql.connect(host_url, username, password, database)
+cursor = db.cursor() 
 base_url = 'http://tbvescio.pythonanywhere.com/'
-
 app = Flask(__name__)
+
 
 @app.route('/', methods=['GET','POST'])
 def home():
-    db = pymysql.connect("tbvescio.mysql.pythonanywhere-services.com", "tbvescio", "15101989python", "tbvescio$url")
+    db = pymysql.connect(host_url, username, password, database)
     cursor = db.cursor()
     if request.method == 'POST':
 
-        url = request.form['url'] #recive la url
+        url = request.form['url'] 
 
         hash_url = hashlib.sha1(url.encode("UTF-8")).hexdigest() #convierte url a hash
-        hash_url = hash_url[:7] #usa solo 7 chr del hash
+        hash_url = hash_url[:7] 
 
         sql = "INSERT INTO url(ID,URL,HASH) VALUES (ID, '{}','{}')".format(url,hash_url)
         cursor.execute(sql)
@@ -32,12 +30,12 @@ def home():
 
 @app.route('/<short_url>')
 def redirect_url(short_url):
-    db = pymysql.connect("tbvescio.mysql.pythonanywhere-services.com", "tbvescio", "15101989python", "tbvescio$url")
+    db = pymysql.connect(host_url, username, password, database)
     cursor = db.cursor()
 
     sql = "select url from url where HASH = '{}'".format(short_url)
     cursor.execute(sql)
-    url = cursor.fetchone()[0] #guarda el resultado
+    url = cursor.fetchone()[0] 
     cursor.close()
     return redirect(url)
 
